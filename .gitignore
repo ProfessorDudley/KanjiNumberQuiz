@@ -4,3 +4,7 @@ bin
 
 # Ionide F#
 .fake
+
+# Temporary testing files
+*.dib
+
