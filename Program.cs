@@ -7,7 +7,7 @@ class KanjiNumberQuiz
   {
       { 0, "零" },
       { 1, "一" },
-      { 2, "に" },
+      { 2, "二" },
       { 3, "三" },
       { 4, "四" },
       { 5, "五" },
@@ -16,6 +16,8 @@ class KanjiNumberQuiz
       { 8, "八" },
       { 9, "九" },
       {10, "十" },
+      {100, "百"},
+      {1000, "千"},
   };
   static void Main()
   {
@@ -29,8 +31,8 @@ class KanjiNumberQuiz
     
 
     Random rnd = new(); // New Random Number object.
-    int number = rnd.Next(100); // New random number between 0 and 11 (0-10 inc).
-    number = 50;
+    int number = rnd.Next(1000); // New random number between 0 and 1000 (0-999 inc).
+    // number = 44;
 
     Console.WriteLine($"Write the kanji for {number}");
 
@@ -45,9 +47,11 @@ class KanjiNumberQuiz
     else
     {
       Console.Write("Incorrect! ");
-     Console.WriteLine($"{number} is actually {answer}.");
+      Console.WriteLine($"{number} is actually {answer}.");
       
     }
+    Console.ReadLine();
+  
 
 
     // while (true)
@@ -65,14 +69,31 @@ class KanjiNumberQuiz
   /// <returns></returns＞
   public static string? GetAnswer(int num)
   {
-    // If there is a specific entry in the kanji list, return early with that kanji.
+    // If there is a specific entry in the kanji list, return early with that kanji
     if(kanjiList.ContainsKey(num)) return kanjiList.GetValueOrDefault(num);
 
+    // new sting variable for containing the built output string
     string? s = string.Empty;
-    int remainder, quotient = Math.DivRem(num, 10, out remainder);
-    
-    s += kanjiList.GetValueOrDefault(quotient) + kanjiList.GetValueOrDefault(10);
-    s += remainder == 0 ? string.Empty : kanjiList.GetValueOrDefault(remainder);
+    int remainder, quotient;
+
+    // Do we have any hundreds values?
+    quotient = Math.DivRem(num, 100, out remainder);
+    if (quotient > 0)
+    {
+      s += kanjiList.GetValueOrDefault(quotient) + kanjiList.GetValueOrDefault(100);
+      num = remainder;
+    }
+
+    // Do we have any tens values?
+    quotient = Math.DivRem(num, 10, out remainder);
+    if (quotient > 0)
+    {
+      s += kanjiList.GetValueOrDefault(quotient) + kanjiList.GetValueOrDefault(10);
+      num = remainder;
+    }
+
+    // Add the final number unless it is a 0
+    s += num == 0 ? string.Empty : kanjiList.GetValueOrDefault(num);
 
     return s;
   }
