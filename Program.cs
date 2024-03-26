@@ -4,9 +4,12 @@ class KanjiNumberQuiz
 {
   static void Main()
   {
+    // Sets console encoding so it can understand japanese characters.
+    Console.OutputEncoding = Encoding.UTF8;
+    Console.InputEncoding = Encoding.UTF8;
+    int score = 0;
 
-    // int score = 0;
-    Dictionary<int, string> kanjiList = new Dictionary<int, string>
+    Dictionary<int, string> kanjiList = new()
     {
         { 0, "零" },
         { 1, "一" },
@@ -18,35 +21,28 @@ class KanjiNumberQuiz
         { 7, "七" },
         { 8, "八" },
         { 9, "九" },
-        { 10, "十" },
+        {10, "十" },
     };
 
-
-    Console.WriteLine(Convert.ToInt32('十'));
-
-
     Random rnd = new(); // New Random Number object.
-    int number = rnd.Next(11);
+    int number = rnd.Next(11); // New random number between 0 and 11 (0-10 inc).
 
     Console.WriteLine($"Write the kanji for {number}");
-    byte[] response = Encoding.Unicode.GetBytes(Console.ReadLine().ToString());
-    byte[] answer = Encoding.Unicode.GetBytes(kanjiList.GetValueOrDefault<int, string>(number).ToString());
-    //Decode
-    string r = Encoding.Unicode.GetString(response);
-    string a = Encoding.Unicode.GetString(answer);
-    Console.WriteLine($"R: {r}, A: {a}");
+
+    string? response = Console.ReadLine();
+    string? answer = kanjiList.GetValueOrDefault(number);
     if (response == answer)
     {
       Console.WriteLine("Correct!");
-      Console.WriteLine($"{number} is {response}!");
-      // score++;
+    Console.WriteLine($"{number} is {answer}.");
+      score++;
     }
     else
     {
       Console.WriteLine("Incorrect");
-      Console.WriteLine($"{number} is {answer}");
+    Console.WriteLine($"{number} is actually {answer}.");
+      
     }
-    Console.ReadLine();
 
 
     // while (true)
@@ -55,15 +51,5 @@ class KanjiNumberQuiz
     //   string command = (Console.ReadLine() ?? string.Empty).ToLower();
     //   if (command == "exit") break;
     // }
-  }
-
-  static void PrintChars(string s)
-  {
-    Console.WriteLine($"\"{s}\".Length = {s.Length}");
-    for (int i = 0; i < s.Length; i++)
-    {
-      Console.WriteLine($"s[{i}] = '{s[i]}' ('\\u{(int)s[i]:x4}')");
-    }
-    Console.WriteLine();
   }
 }
