@@ -30,7 +30,7 @@ class KanjiNumberQuiz
 
     Random rnd = new(); // New Random Number object.
     int number = rnd.Next(100); // New random number between 0 and 11 (0-10 inc).
-    // number = 59;
+    number = 50;
 
     Console.WriteLine($"Write the kanji for {number}");
 
@@ -72,7 +72,7 @@ class KanjiNumberQuiz
     int remainder, quotient = Math.DivRem(num, 10, out remainder);
     
     s += kanjiList.GetValueOrDefault(quotient) + kanjiList.GetValueOrDefault(10);
-    s += kanjiList.GetValueOrDefault(remainder);
+    s += remainder == 0 ? string.Empty : kanjiList.GetValueOrDefault(remainder);
 
     return s;
   }
