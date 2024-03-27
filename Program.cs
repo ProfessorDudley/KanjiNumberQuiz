@@ -24,11 +24,11 @@ class KanjiNumberQuiz
     // Sets console encoding so it can understand japanese characters.
     Console.OutputEncoding = Encoding.UTF8;
     Console.InputEncoding = Encoding.UTF8;
-    
+ 
     while (true)
     {
       Console.WriteLine("Select a Quiz mode");
-      Console.WriteLine("[ nomal ]   [ romaji ]   [ reverse ]");
+      Console.WriteLine("[ normal ]   [ romaji ]   [ reverse ]");
       string command = (Console.ReadLine() ?? string.Empty).ToLower();
       if (command == "exit") break;
       switch (command)
