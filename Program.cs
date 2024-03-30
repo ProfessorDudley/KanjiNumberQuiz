@@ -18,13 +18,14 @@ class KanjiNumberQuiz
       {10, "十" },
       {100, "百"},
       {1000, "千"},
+      {10000, "万"},
   };
   static void Main()
   {
     // Sets console encoding so it can understand japanese characters.
     Console.OutputEncoding = Encoding.UTF8;
     Console.InputEncoding = Encoding.UTF8;
- 
+
     while (true)
     {
       Console.WriteLine("Select a Quiz mode");
@@ -34,9 +35,10 @@ class KanjiNumberQuiz
       switch (command)
       {
         case "normal":
-          NewGame(10, 101);
+          NewGame(10, 1001);
           break;
         case "romaji":
+          
           break;
         case "reverse":
           break;
@@ -63,18 +65,30 @@ class KanjiNumberQuiz
   public static string? GetAnswer(int num)
   {
     // If there is a specific entry in the kanji list, return early with that kanji
-    if(kanjiList.ContainsKey(num)) return kanjiList.GetValueOrDefault(num);
+    if(kanjiList.ContainsKey(num))
+    {
+      return (num >= 10000) ? "一" + kanjiList.GetValueOrDefault(num) : kanjiList.GetValueOrDefault(num);
+    }
 
     // new sting variable for containing the built output string
     string? s = string.Empty;
     int remainder, quotient;
+
+    // Do we have any thousands values?
+    quotient = Math.DivRem(num, 1000, out remainder);
+    if (quotient > 0)
+    {
+      // If only a single 1000 value, drop the '一'
+      s += (quotient == 1) ? kanjiList.GetValueOrDefault(1000) : kanjiList.GetValueOrDefault(quotient) + kanjiList.GetValueOrDefault(1000);
+      num = remainder;
+    }
 
     // Do we have any hundreds values?
     quotient = Math.DivRem(num, 100, out remainder);
     if (quotient > 0)
     {
       // If only a single 100 value, drop the '一'
-      s += (quotient == 1) ? kanjiList.GetValueOrDefault(10) : kanjiList.GetValueOrDefault(quotient) + kanjiList.GetValueOrDefault(100);
+      s += (quotient == 1) ? kanjiList.GetValueOrDefault(100) : kanjiList.GetValueOrDefault(quotient) + kanjiList.GetValueOrDefault(100);
       num = remainder;
     }
 
@@ -114,7 +128,7 @@ class KanjiNumberQuiz
       do
       {
         number = rnd.Next(max); // New random number between 0 and 'max' (0 to (max-1) inc).
-      } while (q.Contains(number)); q[i] = number; 
+      } while (q.Contains(number)); q[i] = number;
       
       Console.WriteLine($"Question {i+1}:");
       Console.WriteLine($"Write the kanji for {number}");
