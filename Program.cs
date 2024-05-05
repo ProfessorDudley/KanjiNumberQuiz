@@ -67,6 +67,7 @@ class KanjiNumberQuiz
     // If there is a specific entry in the kanji list, return early with that kanji
     if(kanjiList.ContainsKey(num))
     {
+      // For numbers greater than ten thousand, prepend "一"(ichi) as this is how Japanese works.
       return (num >= 10000) ? "一" + kanjiList.GetValueOrDefault(num) : kanjiList.GetValueOrDefault(num);
     }
 
