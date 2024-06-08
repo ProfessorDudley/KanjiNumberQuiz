@@ -1,4 +1,5 @@
-﻿using System.Text;
+﻿using System.Globalization;
+using System.Text;
 
 class KanjiNumberQuiz
 {
@@ -72,33 +73,18 @@ class KanjiNumberQuiz
     }
 
     // new sting variable for containing the built output string
-    string? s = string.Empty;
+    string s = string.Empty;
     int remainder, quotient;
+    int[] units = [1000, 100, 10];
 
-    // Do we have any thousands values?
-    quotient = Math.DivRem(num, 1000, out remainder);
-    if (quotient > 0)
+    // build string for each unit in units
+    foreach (int unit in units)
     {
-      // If only a single 1000 value, drop the '一'
-      s += (quotient == 1) ? kanjiList.GetValueOrDefault(1000) : kanjiList.GetValueOrDefault(quotient) + kanjiList.GetValueOrDefault(1000);
-      num = remainder;
-    }
-
-    // Do we have any hundreds values?
-    quotient = Math.DivRem(num, 100, out remainder);
-    if (quotient > 0)
-    {
-      // If only a single 100 value, drop the '一'
-      s += (quotient == 1) ? kanjiList.GetValueOrDefault(100) : kanjiList.GetValueOrDefault(quotient) + kanjiList.GetValueOrDefault(100);
-      num = remainder;
-    }
-
-    // Do we have any tens values?
-    quotient = Math.DivRem(num, 10, out remainder);
-    if (quotient > 0)
-    {
-      // If only a single 10 value, drop the '一'
-      s += (quotient == 1) ? kanjiList.GetValueOrDefault(10) : kanjiList.GetValueOrDefault(quotient) + kanjiList.GetValueOrDefault(10);
+      quotient = Math.DivRem(num, unit, out remainder);
+      if (quotient > 0)
+      {
+        s += (quotient == 1) ? kanjiList.GetValueOrDefault(unit) : kanjiList.GetValueOrDefault(quotient) + kanjiList.GetValueOrDefault(unit);
+      }
       num = remainder;
     }
 
