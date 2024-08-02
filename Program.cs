@@ -29,16 +29,13 @@ class KanjiNumberQuiz
     while (true)
     {
       Console.WriteLine("Select a Quiz mode");
-      Console.WriteLine("[ normal ]   [ romaji ]   [ reverse ]");
+      Console.WriteLine("[ normal ]  [ reverse ]");
       string command = (Console.ReadLine() ?? string.Empty).ToLower();
       if (command == "exit") break;
       switch (command)
       {
         case "normal":
           NewGame(10, 1001);
-          break;
-        case "romaji":
-          
           break;
         case "reverse":
           break;
@@ -48,9 +45,8 @@ class KanjiNumberQuiz
           // exits switch statement if no command is matched.
           Console.WriteLine("Command List:");
           Console.WriteLine("help:        Shows this help screen.");
-          Console.WriteLine("normal:      Starts a new quiz");
-          Console.WriteLine("romaji:      Loads library from disk.");
-          Console.WriteLine("reverse:     Saves library to disk");
+          Console.WriteLine("normal:      Write the kanji for the number that appears on screen.");
+          Console.WriteLine("reverse:     Write the number for the kanji that appears on screen.");
           Console.WriteLine("exit:        Exits the program.");
           break;
       }
