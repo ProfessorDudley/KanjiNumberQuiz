@@ -38,6 +38,7 @@ class KanjiNumberQuiz
           NewGame(10, 1001);
           break;
         case "reverse":
+          NewReverseGame(10, 1001);
           break;
         case "help":
             // continue to default
@@ -53,12 +54,12 @@ class KanjiNumberQuiz
     }
   }
 
-  /// <summary>
-  /// Returns a complete answer string in Kanji for the provided number.
-  /// </summary>
-  /// <param name="num"></param>
-  /// <returns></returns＞
-  public static string? GetAnswer(int num)
+    /// <summary>
+    /// Returns a complete answer string in Kanji for the provided number.
+    /// </summary>
+    /// <param name="num"></param>
+    /// <returns></returns＞
+    public static string? ConvertToKanji(int num)
   {
     // If there is a specific entry in the kanji list, return early with that kanji
     if(kanjiList.ContainsKey(num))
@@ -96,7 +97,7 @@ class KanjiNumberQuiz
   /// </summary>
   /// <param name="rounds">The number of questions to be asked</param>
   /// <param name="max">The maximum number that will be displayed.</param>
-  public static void NewGame(int rounds, int max = 1001)
+  private static void NewGame(int rounds, int max = 1001)
   {
     // New Random Number object.
     Random rnd = new();
@@ -119,7 +120,7 @@ class KanjiNumberQuiz
 
       // Get player response and answer
       string? response = Console.ReadLine();
-      string? answer = GetAnswer(number);
+      string? answer = ConvertToKanji(number);
 
       // Compare player response to answer
       if (response == answer)
@@ -137,6 +138,56 @@ class KanjiNumberQuiz
       Console.WriteLine("Press enter to continue");
       Console.ReadLine();
     }
+    Console.WriteLine($"And that's the game! You scored {score}/{rounds}");
+  }
+
+  private static void NewReverseGame(int rounds, int max = 1001)
+  {
+    // New Random Number object.
+    Random rnd = new();
+    // Initialise Score
+    int number, score = 0;
+    // List of asked questions
+    int[] q = new int[rounds];
+
+    for (int i = 0; i < rounds; i++)
+    {
+      // Generate a new number until number is a value not in q.
+      // Add number to q array at the index of the current question.
+      do
+      {
+        number = rnd.Next(max); // New random number between 0 and 'max' (0 to (max-1) inc).
+      } while (q.Contains(number)); q[i] = number;
+
+      // Convert the number to Kanji
+      string? kanji = ConvertToKanji(number); 
+
+      // Ask the question
+      Console.WriteLine($"Question {i+1}:");
+      Console.WriteLine($"Write the number for {kanji}");
+
+      // Get player response and answer
+      string? response = Console.ReadLine();
+      string? answer = ConvertToKanji(int.Parse(response ?? string.Empty));
+
+      // Compare player response to answer
+      if (kanji == answer)
+      {
+        Console.Write("Correct! ");
+        Console.WriteLine($"{kanji} is {number}.");
+        score++;
+      }
+      else
+      {
+        Console.Write("Incorrect! ");
+        Console.WriteLine($"{kanji} is actually {number}.");
+        
+      }
+      Console.WriteLine("Press enter to continue");
+      Console.ReadLine();
+
+    }
+    // End the game
     Console.WriteLine($"And that's the game! You scored {score}/{rounds}");
   }
 }
