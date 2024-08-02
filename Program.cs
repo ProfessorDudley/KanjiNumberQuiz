@@ -1,4 +1,5 @@
-﻿using System.Text;
+﻿using System.Globalization;
+using System.Text;
 
 class KanjiNumberQuiz
 {
@@ -69,11 +70,11 @@ class KanjiNumberQuiz
     }
 
     // new sting variable for containing the built output string
-    string? s = string.Empty;
+    string s = string.Empty;
     int remainder, quotient;
+    int[] units = [1000, 100, 10];
 
-    //　iterate through units to build kanji string
-    int[] units = [ 1000, 100, 10 ];
+    // build string for each unit in units
     foreach (int unit in units)
     {
       quotient = Math.DivRem(num, unit, out remainder);
@@ -83,8 +84,6 @@ class KanjiNumberQuiz
       }
       num = remainder;
     }
-
-    
 
     // Add the final number unless it is a 0
     s += num == 0 ? string.Empty : kanjiList.GetValueOrDefault(num);

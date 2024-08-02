@@ -8,3 +8,6 @@ bin
 # Temporary testing files
 *.dib
 
+.vscode
+
+
